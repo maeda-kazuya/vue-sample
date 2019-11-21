@@ -1,28 +1,27 @@
-<!-- 開発バージョン、便利なコンソールの警告が含まれています -->
-<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
-<!--<div id="app">-->
-<!--    <p>{{ msg }}</p>-->
-<!--</div>-->
-
-<!DOCTYPE html>
-<title>Introduction of Vue.js</title>
 <script src="https://unpkg.com/vue@2.5.17"></script>
 
 <div id="app">
-    <p>
-<!--        {{ msg }}-->
-<!--        {{ items[0].name }}-->
-        Total price: {{ totalPriceWithTax }}
-    </p>
+    <ul>
+        <li v-for="item in items" v-bind:key="item.name">
+            <!-- v-onでイベントが発生した時に属性値で指定した式を評価する -->
+            {{ item.name }}'s amount: <input type="number" v-on:input="item.quantity = $event.target.value" v-bind:value="item.quantity" min="0">
+        </li>
+    </ul>
+
+    <div v-bind:style="errorMessageStyle">
+        <ul>
+            <!-- 各商品の単価と購入個数をリスト表示する -->
+            <li v-for="item in items" v-bind:key="item.name">
+                {{ item.name }}: {{ item.price }} x {{ item.quantity }} = {{ item.price * item.quantity | numberWithDelimiter }}JPY
+            </li>
+        </ul>
+        <p>{{ items[0].name }}: {{ items[0].price }} x {{ items[0].quantity }}</p>
+        <p>SmallTotal: {{ totalPrice | numberWithDelimiter }}JPY</p>
+        <p>Total(Including tax): {{ totalPriceWithTax | numberWithDelimiter }}JPY</p>
+        <p v-show="!canBuy">
+            {{ 1000 | numberWithDelimiter }} JPY over can be purchased
+        </p>
+    </div>
 </div>
 
 <script src="app.js"></script>
-
-<!--<script>-->
-<!--    console.assert(typeof Vue !== 'undefined');-->
-<!--    new Vue({-->
-<!--        //template: '<p>{{msg}}</p>',-->
-<!--        el: '#app',-->
-<!--        data: { msg: 'Hello, world!!!'}-->
-<!--    }).$mount('#app')-->
-<!--</script>-->
